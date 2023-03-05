@@ -1,6 +1,5 @@
 package com.internship.recorderapp.ui.screens.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +25,7 @@ fun MainScreen(vm: MainViewModel) {
 
     val screenState = vm.screenState.observeAsState()
     val records = vm.records.observeAsState()
+    val currentFile = vm.currentFile.observeAsState()
 
     Scaffold(
         topBar = {
@@ -52,7 +52,8 @@ fun MainScreen(vm: MainViewModel) {
                         .size(100.dp),
                     onClick = {
                         vm.startOrStopRecording()
-                    }
+                    },
+                    enabled = currentFile.value == null
                 ) {
                     Icon(
                         imageVector = if (screenState.value?.isRecording == true)
@@ -83,11 +84,21 @@ fun MainScreen(vm: MainViewModel) {
 
             if (records.value.isNullOrEmpty().not())
                 items(records.value!!) { record ->
-                    Log.e("CreateCard", "Card id: ${record.path}")
                     RecordCard(
                         fileName = record.nameWithoutExtension,
-                        fileLengt = "0:00",
-                        onPlay = { vm.startOrStopPlaying(File(record.path)) },
+                        showProgress = currentFile.value == record.nameWithoutExtension,
+                        onClick = {
+                            if (currentFile.value == null) {
+                                vm.startPlaying(File(record.toURI()))
+                            } else {
+                                if (currentFile.value == record.nameWithoutExtension) {
+                                    vm.stopPlaying()
+                                } else {
+                                    vm.stopPlaying()
+                                    vm.startPlaying(File(record.toURI()))
+                                }
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp)

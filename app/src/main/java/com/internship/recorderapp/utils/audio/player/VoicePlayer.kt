@@ -8,15 +8,17 @@ import javax.inject.Inject
 
 class VoicePlayer @Inject constructor(
     private val application: RecorderApplication
-): AudioPlayer {
+) : AudioPlayer {
 
-    private var player:MediaPlayer? = null
+    private var player: MediaPlayer? = null
 
-    override fun playAudioFile(file: File) {
+    override fun playAudioFile(file: File, onComplete: () -> Unit): Int? {
         MediaPlayer.create(application, file.toUri()).apply {
+            this.setOnCompletionListener { onComplete() }
             player = this
             start()
         }
+        return player?.duration
     }
 
     override fun stop() {

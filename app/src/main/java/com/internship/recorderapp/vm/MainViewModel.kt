@@ -1,6 +1,5 @@
 package com.internship.recorderapp.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,22 +22,14 @@ class MainViewModel @Inject constructor(
     private var audioFile: File? = null
 
     /**Voice player object*/
-    private val player by lazy {
-        VoicePlayer(application)
-    }
+    private val player by lazy { VoicePlayer(application) }
 
     /**Voice recorder object*/
-    private val recorder by lazy {
-        VoiceRecorder(application)
-    }
+    private val recorder by lazy { VoiceRecorder(application) }
 
     /**Object that represents current MainScreen state*/
     private val _screenState: MutableLiveData<MainScreenState> by lazy {
-        MutableLiveData<MainScreenState>(
-            MainScreenState(
-                isRecording = false
-            )
-        )
+        MutableLiveData<MainScreenState>(MainScreenState())
     }
     val screenState: LiveData<MainScreenState> = _screenState
 
@@ -47,28 +38,29 @@ class MainViewModel @Inject constructor(
         MutableLiveData<List<File>>(emptyList())
     }
     val records: LiveData<List<File>> = _records
-    private var isAlreadyPlaying = false
+
+    /**Current records list*/
+    private val _currentFile: MutableLiveData<String?> by lazy {
+        MutableLiveData<String?>()
+    }
+    val currentFile: LiveData<String?> = _currentFile
 
     fun startOrStopRecording() {
 
-        if (_screenState.value?.isRecording == true) {
-            Log.e("StartStop", "isRecording is true (check: ${_screenState.value?.isRecording})")
+        if (audioFile != null) {
             _screenState.value = _screenState.value?.copy(
                 isRecording = _screenState.value?.isRecording?.not() ?: false
             )
-
-
             recorder.stop()
             _records.value = buildList {
                 addAll(_records.value!!)
                 add(audioFile!!)
             }
+            audioFile = null
         } else {
-            Log.e("StartStop", "isRecording is false (check: ${_screenState.value?.isRecording})")
             _screenState.value = _screenState.value?.copy(
                 isRecording = _screenState.value?.isRecording?.not() ?: false
             )
-
             val dateFormat = SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale("ru", "Russia"))
             val currentDateTime = dateFormat.format(Date())
 
@@ -77,24 +69,17 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun startOrStopPlaying(file: File): Boolean {
-
-        return if (isAlreadyPlaying) {
-            isAlreadyPlaying = false
-            player.stop()
-            false
-        } else {
-            isAlreadyPlaying = true
-            try {
-                player.playAudioFile(file)
-            } catch (e: Exception) {
-                Log.e("Start Playing", e.message.toString())
-            }
-            true
-        }
-
+    fun stopPlaying() {
+        player.stop()
+        _currentFile.value = null
     }
 
+    fun startPlaying(file: File): Int? {
+        _currentFile.value = file.nameWithoutExtension
+        return player.playAudioFile(file = file) {
+            _currentFile.value = null
+        }
+    }
 }
 
 
