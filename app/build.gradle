@@ -5,12 +5,12 @@ plugins {
     id 'kotlin-kapt'
 }
 android {
-    namespace 'com.example.gifsearcher'
+    namespace 'com.internship.recorderapp'
 
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.gifsearcher"
+        applicationId "com.internship.recorderapp"
         minSdk 24
         targetSdk 33
         versionCode 1
