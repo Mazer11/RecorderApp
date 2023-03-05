@@ -1,8 +1,20 @@
 # RecorderApp
 Internship contest
 </br>
+Стек:
+<ol>
+  <li>Kotlin</li>
+  <li>Coil - для асинхронной загрузки и отображения Gif. Glide с Compose не очень дружит.</li>
+  <li>Okhttp + Retrofit + Moshi(для JSON-ов) - запросы в сеть.</li>
+  <li>Coroutines</li>
+  <li>Jetpack Compose</li>
+  <li>Hilt - внедрял зависимости.</li>
+  <li>DataStore - для хранения установленной цветовой темы приложения.</li>
+  <li>Room - хранение авторизации пользователя (вошёл или нет)).</li>
+  <li>Material 3 - некоторые composable функции.</li>
+</ol>
 </br>Авторизация в ВК:</br>
-</br>
+
 ![7T3KGGOTjj](https://user-images.githubusercontent.com/86118013/222984945-c3757742-88d3-447f-ae2a-a20232752f67.png)
 </br>
 </br>Экран, появляющийся при провальной попытке авторизоваться:</br>
@@ -24,5 +36,6 @@ Internship contest
 </br>
 </br>Экраны при наличии записей (если их будет много, то список внизу экрана будет выглядеть так, будто находится под кнопкой):</br>
 </br>
+
 ![zyGFI3lc1H](https://user-images.githubusercontent.com/86118013/222984954-fade3c41-4744-4231-8ef0-adb10140668f.png)
 ![photo_1_2023-03-05_23-47-07](https://user-images.githubusercontent.com/86118013/222985048-5dd983f1-1bcb-4e1e-942b-be5ff008c98d.jpg)
