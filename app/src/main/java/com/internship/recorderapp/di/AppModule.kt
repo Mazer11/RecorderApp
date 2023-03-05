@@ -1,7 +1,13 @@
 package com.internship.recorderapp.di
 
 import android.content.Context
+import androidx.room.Room
 import com.internship.recorderapp.RecorderApplication
+import com.internship.recorderapp.data.local.room.LocalDataRepository
+import com.internship.recorderapp.data.local.room.LocalDatabase
+import com.internship.recorderapp.data.usecases.InsertNewRecordUseCase
+import com.internship.recorderapp.data.usecases.RecordsUseCases
+import com.internship.recorderapp.data.usecases.SelectAll
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +22,30 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApp(@ApplicationContext app: Context) = app as RecorderApplication
+
+    @Provides
+    @Singleton
+    fun provideLocalDb(app: RecorderApplication): LocalDatabase {
+        return Room.databaseBuilder(
+            app,
+            LocalDatabase::class.java,
+            LocalDatabase.DATABASE_NAME
+        ).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRoomRepository(db: LocalDatabase): LocalDataRepository {
+        return LocalDataRepository(db.roomDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecordsUseCases(repository: LocalDataRepository): RecordsUseCases {
+        return RecordsUseCases(
+            insertNewRecordUseCase = InsertNewRecordUseCase(repository),
+            selectAll = SelectAll(repository)
+        )
+    }
 
 }
