@@ -67,11 +67,11 @@ class MainActivity : ComponentActivity() {
                     } else if (vkLogin.value == true)
                         NavigationGraph(navController = navController)
                     else
-                        authLauncher.launch(arrayListOf(VKScope.AUDIO))
+                        authLauncher.launch(arrayListOf(VKScope.DOCS))
 
                     ErrorScreen(
                         onRetry = {
-                            authLauncher.launch(arrayListOf(VKScope.AUDIO))
+                            authLauncher.launch(arrayListOf(VKScope.DOCS))
                         }
                     )
                 }

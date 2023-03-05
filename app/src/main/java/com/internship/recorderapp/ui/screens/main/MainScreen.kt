@@ -40,41 +40,8 @@ fun MainScreen(vm: MainViewModel) {
                 modifier = Modifier.fillMaxWidth()
             )
         },
-        bottomBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(50.dp)
-            ) {
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(100.dp),
-                    onClick = {
-                        vm.startOrStopRecording()
-                    },
-                    enabled = currentFile.value == null
-                ) {
-                    Icon(
-                        imageVector = if (screenState.value?.isRecording == true)
-                            Icons.Default.MicOff
-                        else
-                            Icons.Default.Mic,
-                        contentDescription = "Start or pause recording",
-                        modifier = Modifier
-                            .size(100.dp)
-                            .background(
-                                MaterialTheme.colorScheme.primary,
-                                CircleShape
-                            )
-                            .padding(8.dp)
-                    )
-                }
-            }
-        },
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
-
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -115,6 +82,38 @@ fun MainScreen(vm: MainViewModel) {
                 }
             }
 
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(bottom = 50.dp)
+        ) {
+            IconButton(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .size(100.dp),
+                onClick = {
+                    vm.startOrStopRecording()
+                },
+                enabled = currentFile.value == null
+            ) {
+                Icon(
+                    imageVector = if (screenState.value?.isRecording == true)
+                        Icons.Default.MicOff
+                    else
+                        Icons.Default.Mic,
+                    contentDescription = "Start or pause recording",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primary,
+                            CircleShape
+                        )
+                        .padding(8.dp)
+                )
+            }
         }
     }
 }
