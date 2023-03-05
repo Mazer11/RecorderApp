@@ -10,6 +10,8 @@ import com.internship.recorderapp.utils.audio.player.VoicePlayer
 import com.internship.recorderapp.utils.audio.recorder.VoiceRecorder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,15 +47,15 @@ class MainViewModel @Inject constructor(
         MutableLiveData<List<File>>(emptyList())
     }
     val records: LiveData<List<File>> = _records
+    private var isAlreadyPlaying = false
 
     fun startOrStopRecording() {
 
         if (_screenState.value?.isRecording == true) {
-
+            Log.e("StartStop", "isRecording is true (check: ${_screenState.value?.isRecording})")
             _screenState.value = _screenState.value?.copy(
                 isRecording = _screenState.value?.isRecording?.not() ?: false
             )
-            Log.e("StartStop", "isRecording is true (check: ${_screenState.value?.isRecording})")
 
 
             recorder.stop()
@@ -62,15 +64,35 @@ class MainViewModel @Inject constructor(
                 add(audioFile!!)
             }
         } else {
-
+            Log.e("StartStop", "isRecording is false (check: ${_screenState.value?.isRecording})")
             _screenState.value = _screenState.value?.copy(
                 isRecording = _screenState.value?.isRecording?.not() ?: false
             )
 
-            Log.e("StartStop", "isRecording is false (check: ${_screenState.value?.isRecording})")
-            audioFile = File(application.cacheDir, "audio.mp3")
+            val dateFormat = SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale("ru", "Russia"))
+            val currentDateTime = dateFormat.format(Date())
+
+            audioFile = File(application.cacheDir, "$currentDateTime.mp3")
             recorder.start(outputFile = audioFile!!)
         }
+    }
+
+    fun startOrStopPlaying(file: File): Boolean {
+
+        return if (isAlreadyPlaying) {
+            isAlreadyPlaying = false
+            player.stop()
+            false
+        } else {
+            isAlreadyPlaying = true
+            try {
+                player.playAudioFile(file)
+            } catch (e: Exception) {
+                Log.e("Start Playing", e.message.toString())
+            }
+            true
+        }
+
     }
 
 }

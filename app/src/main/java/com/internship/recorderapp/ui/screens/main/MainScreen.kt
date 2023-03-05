@@ -1,5 +1,6 @@
 package com.internship.recorderapp.ui.screens.main
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.internship.recorderapp.ui.screens.main.components.RecordCard
 import com.internship.recorderapp.vm.MainViewModel
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,9 +56,9 @@ fun MainScreen(vm: MainViewModel) {
                 ) {
                     Icon(
                         imageVector = if (screenState.value?.isRecording == true)
-                            Icons.Default.Mic
+                            Icons.Default.MicOff
                         else
-                            Icons.Default.MicOff,
+                            Icons.Default.Mic,
                         contentDescription = "Start or pause recording",
                         modifier = Modifier
                             .size(100.dp)
@@ -81,10 +83,14 @@ fun MainScreen(vm: MainViewModel) {
 
             if (records.value.isNullOrEmpty().not())
                 items(records.value!!) { record ->
+                    Log.e("CreateCard", "Card id: ${record.path}")
                     RecordCard(
                         fileName = record.nameWithoutExtension,
                         fileLengt = "0:00",
-                        createDate = "05.03.2023"
+                        onPlay = { vm.startOrStopPlaying(File(record.path)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
             else {
