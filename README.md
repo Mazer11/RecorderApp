@@ -5,7 +5,7 @@ Internship contest
 <ol>
   <li>Kotlin</li>
   <li>Coil - для асинхронной загрузки и отображения Gif. Glide с Compose не очень дружит.</li>
-  <li>Okhttp + Retrofit + Moshi(для JSON-ов) - запросы в сеть.</li>
+  <li>Okhttp + Retrofit + Moshi(для JSON-ов) - запросы в сеть (не успел использовать).</li>
   <li>Coroutines</li>
   <li>Jetpack Compose</li>
   <li>Hilt - внедрял зависимости.</li>
