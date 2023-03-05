@@ -64,7 +64,7 @@ fun MainScreen(vm: MainViewModel) {
                         modifier = Modifier
                             .size(100.dp)
                             .background(
-                                MaterialTheme.colorScheme.primaryContainer,
+                                MaterialTheme.colorScheme.primary,
                                 CircleShape
                             )
                             .padding(8.dp)

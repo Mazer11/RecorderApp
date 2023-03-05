@@ -3,6 +3,7 @@ package com.internship.recorderapp.di
 import android.content.Context
 import androidx.room.Room
 import com.internship.recorderapp.RecorderApplication
+import com.internship.recorderapp.data.local.datastore.DataStoreRepository
 import com.internship.recorderapp.data.local.room.LocalDataRepository
 import com.internship.recorderapp.data.local.room.LocalDatabase
 import com.internship.recorderapp.data.usecases.DeleteRecordUseCase
@@ -48,6 +49,12 @@ object AppModule {
             selectAllUseCase = SelectAllUseCase(repository),
             deleteRecordUseCase = DeleteRecordUseCase(repository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatastore(app: RecorderApplication): DataStoreRepository {
+        return DataStoreRepository(app)
     }
 
 }
