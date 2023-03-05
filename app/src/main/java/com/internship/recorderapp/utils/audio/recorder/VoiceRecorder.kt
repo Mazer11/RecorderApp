@@ -2,6 +2,7 @@ package com.internship.recorderapp.utils.audio.recorder
 
 import android.media.MediaRecorder
 import android.os.Build
+import android.util.Log
 import com.internship.recorderapp.RecorderApplication
 import java.io.File
 import java.io.FileOutputStream
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 class VoiceRecorder @Inject constructor(
     private val application: RecorderApplication
-): AudioRecorder {
+) : AudioRecorder {
 
     private var recorder: MediaRecorder? = null
 
@@ -28,15 +29,21 @@ class VoiceRecorder @Inject constructor(
     }
 
     override fun stop() {
-        recorder?.stop()
-        recorder?.reset()
-        recorder = null
+        if (recorder != null) {
+            try {
+                recorder?.stop()
+            } catch (e: Exception){
+                Log.e("VoiceRecorderException", "Exception is: ${e.message}")
+            }
+            recorder?.reset()
+            recorder = null
+        }
     }
 
-    private fun createRecorder(): MediaRecorder{
-        return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+    private fun createRecorder(): MediaRecorder {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(application)
-        } else{
+        } else {
             MediaRecorder()
         }
     }
