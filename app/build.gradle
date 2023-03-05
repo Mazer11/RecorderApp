@@ -38,7 +38,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.3.1'
     }
     packagingOptions {
         resources {
@@ -49,10 +49,12 @@ android {
 dependencies {
     //Core
     implementation 'androidx.core:core-ktx:1.9.0'
+
     //Compose Bom
     def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
     implementation composeBom
     androidTestImplementation composeBom
+
     //Material Design 3 + Compose Ui
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.compose.ui:ui'
@@ -61,6 +63,9 @@ dependencies {
     // Android Studio Preview support
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    //Navigation
+    implementation 'androidx.navigation:navigation-compose'
 
     //icons
     implementation 'androidx.compose.material:material-icons-extended'
@@ -73,6 +78,12 @@ dependencies {
 
     //LiveData
     implementation 'androidx.compose.runtime:runtime-livedata'
+
+    //Coil
+    def coil_version = '2.2.2'
+    implementation("io.coil-kt:coil:$coil_version")
+    implementation("io.coil-kt:coil-compose:$coil_version")
+    implementation("io.coil-kt:coil-gif:$coil_version")
 
     //Data Store
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
@@ -87,6 +98,10 @@ dependencies {
     def retrofit_version = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+
+    //Accompanist - AnimatedNavHost
+    def accompanist_version = '0.29.1-alpha'
+    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
 
     //Okhttp
     def okhttp_version = '4.10.0'

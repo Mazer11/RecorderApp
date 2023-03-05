@@ -1,6 +1,7 @@
 package com.internship.recorderapp
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-
-class RecorderApplication: Application() {}
+@HiltAndroidApp
+class RecorderApplication : Application() {}
