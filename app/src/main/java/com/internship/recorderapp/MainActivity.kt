@@ -5,7 +5,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.navigation.compose.rememberNavController
 import com.internship.recorderapp.data.local.datastore.DataStoreRepository
@@ -55,19 +58,23 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            val vkLogin = datastore.isUserLogined.collectAsState(initial = false)
-            Log.e("TAG", "IsAuthenticated value: ${vkLogin.value}")
-
             RecorderAppTheme {
-                val navController = rememberNavController()
-                if (vkLogin.value)
-                    NavigationGraph(navController = navController)
-                else
+                val vkLogin = datastore.isUserLogined.collectAsState(initial = null)
+                Column(modifier = Modifier.fillMaxSize()) {
+                    val navController = rememberNavController()
+                    if (vkLogin.value == null) {
+                        Log.i("vkLogin", "waiting for vkLogin")
+                    } else if (vkLogin.value == true)
+                        NavigationGraph(navController = navController)
+                    else
+                        authLauncher.launch(arrayListOf(VKScope.AUDIO))
+
                     ErrorScreen(
                         onRetry = {
-                            authLauncher.launch(arrayListOf(VKScope.NOTIFICATIONS))
+                            authLauncher.launch(arrayListOf(VKScope.AUDIO))
                         }
                     )
+                }
             }
         }
     }

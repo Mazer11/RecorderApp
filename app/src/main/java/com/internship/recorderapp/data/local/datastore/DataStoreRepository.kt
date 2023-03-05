@@ -38,7 +38,7 @@ class DataStoreRepository(
             }
         }
         .map { preferences ->
-            val loginKey = preferences[PreferenceKeys.loginKey] ?: true
+            val loginKey = preferences[PreferenceKeys.loginKey] ?: false
             loginKey
         }
 
