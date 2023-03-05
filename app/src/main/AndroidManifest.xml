@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
-        android:name="com.internship.recorderapp.RecorderApplication"
+        android:name=".RecorderApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +16,7 @@
         android:theme="@style/Theme.RecorderApp"
         tools:targetApi="31">
         <activity
-            android:name="com.internship.recorderapp.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.RecorderApp">
             <intent-filter>
