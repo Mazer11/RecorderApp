@@ -13,4 +13,8 @@ class LocalDataRepository(private val roomDao: RoomDao) {
         return roomDao.selectAll()
     }
 
+    suspend fun deleteRecord(path: String) {
+        roomDao.deleteRecord(path)
+    }
+
 }

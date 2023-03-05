@@ -54,7 +54,7 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loadFiles(recordsUseCases.selectAll.invoke().first())
+            loadFiles(recordsUseCases.selectAllUseCase.invoke().first())
         }
     }
 
@@ -102,10 +102,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun loadFiles(paths: List<StoredRecord>){
+    private fun loadFiles(paths: List<StoredRecord>) {
 
         val loadedRecords = mutableListOf<File>()
-        paths.forEach {record ->
+        paths.forEach { record ->
             Log.e("LOADING_RECORDS", record.path)
             loadedRecords.add(File(application.filesDir, record.path))
         }
@@ -114,6 +114,16 @@ class MainViewModel @Inject constructor(
             addAll(loadedRecords)
         }
     }
+
+    fun deleteRecord(path: String) {
+        viewModelScope.launch {
+            recordsUseCases.deleteRecordUseCase.invoke(path)
+            _records.value = _records.value!!.filter {
+                it.name != path
+            }
+        }
+    }
+
 }
 
 

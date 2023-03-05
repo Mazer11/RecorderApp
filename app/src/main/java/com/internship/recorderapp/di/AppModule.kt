@@ -5,9 +5,10 @@ import androidx.room.Room
 import com.internship.recorderapp.RecorderApplication
 import com.internship.recorderapp.data.local.room.LocalDataRepository
 import com.internship.recorderapp.data.local.room.LocalDatabase
+import com.internship.recorderapp.data.usecases.DeleteRecordUseCase
 import com.internship.recorderapp.data.usecases.InsertNewRecordUseCase
 import com.internship.recorderapp.data.usecases.RecordsUseCases
-import com.internship.recorderapp.data.usecases.SelectAll
+import com.internship.recorderapp.data.usecases.SelectAllUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,7 +45,8 @@ object AppModule {
     fun provideRecordsUseCases(repository: LocalDataRepository): RecordsUseCases {
         return RecordsUseCases(
             insertNewRecordUseCase = InsertNewRecordUseCase(repository),
-            selectAll = SelectAll(repository)
+            selectAllUseCase = SelectAllUseCase(repository),
+            deleteRecordUseCase = DeleteRecordUseCase(repository)
         )
     }
 

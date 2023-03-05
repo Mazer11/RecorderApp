@@ -99,6 +99,7 @@ fun MainScreen(vm: MainViewModel) {
                                 }
                             }
                         },
+                        onDelete = { vm.deleteRecord(record.name) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp)

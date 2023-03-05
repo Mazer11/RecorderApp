@@ -15,4 +15,7 @@ interface RoomDao {
 
     @Query("SELECT * FROM stored_records")
     fun selectAll(): Flow<List<StoredRecord>>
+
+    @Query("DELETE FROM stored_records WHERE path=:path")
+    suspend fun deleteRecord(path: String)
 }

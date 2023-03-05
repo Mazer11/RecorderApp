@@ -2,6 +2,8 @@ package com.internship.recorderapp.ui.screens.main.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +16,8 @@ fun RecordCard(
     fileName: String,
     showProgress: Boolean,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDelete: () -> Unit
 ) {
 
     Card(
@@ -31,6 +34,9 @@ fun RecordCard(
             Text(text = fileName)
             AnimatedVisibility(visible = showProgress) {
                 CircularProgressIndicator(modifier = Modifier.size(16.dp))
+            }
+            IconButton(onClick = { onDelete() }) {
+                Icon(imageVector = Icons.Default.Remove, contentDescription = null)
             }
         }
     }
